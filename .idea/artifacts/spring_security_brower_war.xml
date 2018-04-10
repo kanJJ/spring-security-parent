@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="spring-security-brower:war">
+    <output-path>$PROJECT_DIR$/spring-security-brower/target</output-path>
+    <root id="archive" name="spring-security-brower.war">
+      <element id="artifact" artifact-name="spring-security-brower:war exploded" />
+    </root>
+  </artifact>
+</component>
