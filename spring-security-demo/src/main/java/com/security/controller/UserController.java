@@ -35,13 +35,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User user(@Valid @RequestBody User user) {
+    public User user() {
         /*System.out.println(errors.hasErrors());
         if (errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()));
         }*/
-        System.out.println(user);
-        return user;
+        // System.out.println(user);
+        return new User();
     }
 
     @PostMapping("/upload")

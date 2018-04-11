@@ -10,3 +10,5 @@ spring:
 security:
   basic:
     enabled: false
+#  browser:
+#    loginPage: /demo-page.html
