@@ -1,6 +1,8 @@
 package com.security.controller;
 
 import com.security.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/user")
 public class UserController {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping
     public List<User> user(@Valid @RequestParam(name="username" , required = false, defaultValue = "tom") String username) {
@@ -53,4 +57,5 @@ public class UserController {
         file.transferTo(newFile);
         return newFile.getAbsolutePath();
     }
+
 }

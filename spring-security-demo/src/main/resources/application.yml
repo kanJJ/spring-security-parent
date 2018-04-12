@@ -7,8 +7,36 @@ spring:
       driver: com.mysql.jdbc.Driver
   session:
     store-type: none
+  thymeleaf:
+    #启用模板缓存（开发时建议关闭）
+    cache: false
+    #检查模板是否存在，然后再呈现
+    check-template: true
+    #检查模板位置是否存在
+    check-template-location: true
+    content-type: text/html
+    #启用MVC Thymeleaf视图分辨率
+    enabled: true
+    encoding: utf-8
+    #应该从解决方案中排除的视图名称的逗号分隔列表
+    # excluded-view-names:
+    #应用于模板的模板模式。另请参见StandardTemplateModeHandlers
+    mode: LEGACYHTML5
+    #在构建URL时预先查看名称的前缀
+    prefix: classpath:/resources/templates/
+    suffix: .html
+    # 链中模板解析器的顺序
+    template-resolver-order:
+    # 可以解析的视图名称的逗号分隔列表
+    # view-names:
 security:
   basic:
     enabled: false
+    path: ""
+  ignored: /**
+server:
+  port: 8080
+  #context-path:
+
 #  browser:
 #    loginPage: /demo-page.html
