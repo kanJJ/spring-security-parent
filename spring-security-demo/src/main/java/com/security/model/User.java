@@ -2,6 +2,7 @@ package com.security.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.security.valid.MyNotNull;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 
@@ -14,9 +15,11 @@ public class User {
 
     @MyNotNull(message = "username bu neng wei kong")
     @JsonView(SimpleView.class)
+    @ApiModelProperty("user`s username")
     private String username;
 
     @JsonView(SimpleView.class)
+    @ApiModelProperty("user`s id")
     private String id;
 
     @NotNull

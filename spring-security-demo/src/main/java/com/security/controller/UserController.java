@@ -1,6 +1,8 @@
 package com.security.controller;
 
 import com.security.model.User;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,8 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping
-    public List<User> user(@Valid @RequestParam(name="username" , required = false, defaultValue = "tom") String username) {
+    @ApiOperation("according username to query")
+    public List<User> user( @ApiParam("username of user") @Valid @RequestParam(name="username" , required = false, defaultValue = "tom") String username) {
         System.out.println(username);
         List<User> users = new ArrayList<>();
         users.add(new User());

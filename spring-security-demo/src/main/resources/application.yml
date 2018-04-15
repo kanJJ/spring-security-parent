@@ -34,6 +34,10 @@ security:
     enabled: false
     path: ""
   ignored: /**
+  code:
+    image:
+      length: 4
+    urls: /user/1
 server:
   port: 8080
   #context-path:
