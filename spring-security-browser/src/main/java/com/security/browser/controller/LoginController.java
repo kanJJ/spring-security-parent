@@ -34,13 +34,13 @@ public class LoginController {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public SimpleResponse authenticateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
         SavedRequest request = rc.getRequest(req, res);
-        String redirectUrl = request.getRedirectUrl();
-        if (redirectUrl.endsWith(".html")) {
-            rs.sendRedirect(req, res, sp.getBrowser().getLoginPage());
-        } else {
-            res.setContentType("application/json;charset=UTF-8");
-            return new SimpleResponse("ren zheng wei tong guo!");
+        if (request != null) {
+            String redirectUrl = request.getRedirectUrl();
+            if (redirectUrl != null && redirectUrl.endsWith(".html")) {
+                rs.sendRedirect(req, res, sp.getBrowser().getLoginPage());
+            }
         }
-        return null;
+        res.setContentType("application/json;charset=UTF-8");
+        return new SimpleResponse("ren zheng wei tong guo!");
     }
 }

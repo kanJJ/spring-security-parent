@@ -49,7 +49,7 @@ public class ImageCodeValidFilter extends OncePerRequestFilter implements Initia
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        String[] configUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getUrls(),",");
+        String[] configUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrls(),",");
         for (String url: configUrls) {
             urls.add(url);
         }

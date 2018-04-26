@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Chris on 2018/4/11.
  */
-@Component
+@Component("myUserDetailService")
 public class MyUseDetailService  implements UserDetailsService {
     Logger log = LoggerFactory.getLogger(getClass());
     @Override

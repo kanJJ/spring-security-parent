@@ -2,16 +2,20 @@ package com.security.browser;
 
 import com.security.core.filter.ImageCodeValidFilter;
 import com.security.core.properties.SecurityProperties;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 /**
  * Created by Chris on 2018/4/11.
@@ -32,6 +36,20 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties sp;
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService myUserDetailService;
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        // jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
+    }
+
 
 
     @Override
@@ -41,7 +59,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         imageCodeValidFilter.setAuthenticationFailHandler(loginFailedHandler);
         imageCodeValidFilter.afterPropertiesSet();
         http.addFilterBefore(imageCodeValidFilter, UsernamePasswordAuthenticationFilter.class) .formLogin().loginPage("/index").loginProcessingUrl("/authenticate/require").permitAll().successHandler(loginSuccessHandler)
-                .and().authorizeRequests().antMatchers(sp.getBrowser().getLoginPage(), "/code/image").permitAll().anyRequest().authenticated()
+                .and().rememberMe().tokenRepository(persistentTokenRepository()).userDetailsService(myUserDetailService).tokenValiditySeconds(sp.getBrowser().getRememberMeTime())
+                .and().authorizeRequests().antMatchers(sp.getBrowser().getLoginPage(), "/code/*").permitAll().anyRequest().authenticated()
         .and().csrf().disable();
     }
 }

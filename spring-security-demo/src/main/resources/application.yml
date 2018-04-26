@@ -37,10 +37,12 @@ security:
   code:
     image:
       length: 4
-    urls: /user/1
+      urls: /user/1
+    sms:
+      length: 6
+  browser:
+    rememberMeTime: 1000
+  #    loginPage: /demo-page.html
 server:
   port: 8080
   #context-path:
-
-#  browser:
-#    loginPage: /demo-page.html

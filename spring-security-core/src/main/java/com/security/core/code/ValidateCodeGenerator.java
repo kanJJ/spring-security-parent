@@ -1,10 +1,12 @@
 package com.security.core.code;
 
+import com.security.core.model.ValidateCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * Created by Chris on 2018/4/15.
+ * Created by Chris on 2018/4/25.
  */
 public interface ValidateCodeGenerator {
-    public ImageCode generate(ServletWebRequest request);
+
+    public ValidateCode generate(ServletWebRequest web);
 }

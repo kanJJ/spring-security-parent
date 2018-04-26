@@ -5,19 +5,9 @@ package com.security.core.properties;
  */
 public class ValidateCodeProperties {
 
-    public ValidateCodeProperties() {
-    }
-
     private ImageCodeProperties image = new ImageCodeProperties();
-    private String urls;
 
-    public String getUrls() {
-        return urls;
-    }
-
-    public void setUrls(String urls) {
-        this.urls = urls;
-    }
+    private SmsCodeProperties sms = new SmsCodeProperties();
 
     public ImageCodeProperties getImage() {
         return image;
@@ -25,5 +15,13 @@ public class ValidateCodeProperties {
 
     public void setImage(ImageCodeProperties image) {
         this.image = image;
+    }
+
+    public SmsCodeProperties getSms() {
+        return sms;
+    }
+
+    public void setSms(SmsCodeProperties sms) {
+        this.sms = sms;
     }
 }

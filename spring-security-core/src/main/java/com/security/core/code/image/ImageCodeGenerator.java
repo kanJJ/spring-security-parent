@@ -1,7 +1,8 @@
-package com.security.core.code;
+package com.security.core.code.image;
 
+import com.security.core.code.ValidateCodeGenerator;
+import com.security.core.model.ImageCode;
 import com.security.core.properties.SecurityProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -17,7 +18,6 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     /**
      * 系统配置
      */
-    @Autowired
     private SecurityProperties securityProperties;
 
     public SecurityProperties getSecurityProperties() {

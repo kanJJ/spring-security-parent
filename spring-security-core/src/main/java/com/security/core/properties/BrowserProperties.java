@@ -7,6 +7,16 @@ package com.security.core.properties;
 public class BrowserProperties {
     private String loginPage = "/sigin.html";
 
+    private int rememberMeTime = 600;
+
+    public int getRememberMeTime() {
+        return rememberMeTime;
+    }
+
+    public void setRememberMeTime(int rememberMeTime) {
+        this.rememberMeTime = rememberMeTime;
+    }
+
     public String getLoginPage() {
         return loginPage;
     }
