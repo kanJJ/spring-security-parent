@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * Created by Chris on 2018/4/11.
@@ -41,6 +42,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService myUserDetailService;
+
+    @Autowired
+    private SpringSocialConfigurer mySpringSocialConfigurer;
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

@@ -1,5 +1,6 @@
 package com.security.core.properties;
 
+import com.security.core.properties.social.SocialProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -8,7 +9,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "security")
 public class SecurityProperties {
     private BrowserProperties browser = new BrowserProperties();
+    private SocialProperties social;
 
+    public SocialProperties getSocial() {
+        return social;
+    }
+
+    public void setSocial(SocialProperties social) {
+        this.social = social;
+    }
 
     public BrowserProperties getBrowser() {
         return browser;
