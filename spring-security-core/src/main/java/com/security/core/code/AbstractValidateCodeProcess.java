@@ -1,8 +1,11 @@
 package com.security.core.code;
 
 import com.security.core.constants.Constants;
+import com.security.core.exception.ValidateCodeException;
 import com.security.core.model.ValidateCode;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -10,10 +13,14 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.Map;
 
+import static com.security.core.constants.Constants.SESSION_CODE_KEY_SMS;
+
 /**
  * Created by Chris on 2018/4/26.
  */
 public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implements ValidateCodeProcess {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGeneratorMap;
@@ -34,10 +41,10 @@ public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implem
         }
 
         if ("image".equals(type)) {
-            ss.setAttribute(web, Constants.SESSION_IMAGE_CODE_KEY, code.getCode());
-        }else if("sms".equals(type)) {
-            ss.setAttribute(web, Constants.SESSION_SMS_CODE_KEY, code.getCode());
-        }else {
+            ss.setAttribute(web, Constants.SESSION_CODE_KEY_IMAGE, code.getCode());
+        } else if ("sms".equals(type)) {
+            ss.setAttribute(web, SESSION_CODE_KEY_SMS, code.getCode());
+        } else {
             throw new RuntimeException("url 中 type 不匹配");
         }
 
@@ -49,8 +56,32 @@ public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implem
         return (C) validateCodeGenerator.generate(requset);
     }
 
+    @Override
+    public void validate(ServletWebRequest web) {
+        String type = getValidateCodeType(web).toString().toLowerCase();
+        String sessionCode = (String) ss.getAttribute(web, Constants.SESSION_CODE_KEY_PREFIX + type.toUpperCase());
+        String urlCode = (String) web.getRequest().getAttribute(type);
+
+        if (sessionCode == null) {
+            throw new ValidateCodeException("验证码失效，请重新获取");
+        }
+        if (StringUtils.isBlank(urlCode)) {
+            throw new ValidateCodeException("验证码不能为空");
+        }
+        if (!sessionCode.equals(urlCode)) {
+            throw new ValidateCodeException("验证码不匹配");
+        }
+        ss.removeAttribute(web, Constants.SESSION_CODE_KEY_PREFIX + type.toUpperCase());
+        logger.info("验证成功");
+    }
+
     public String getProcessType(ServletWebRequest web) {
         return StringUtils.substringAfter(web.getRequest().getRequestURI(), "/code/");
+    }
+
+    public ValidateCodeType getValidateCodeType(ServletWebRequest web) {
+        String s = StringUtils.substringBefore(this.getClass().getSimpleName(), "ValidateCodeProcess");
+        return ValidateCodeType.valueOf(s.toUpperCase());
     }
 
     public abstract void sender(ServletWebRequest web, C code);

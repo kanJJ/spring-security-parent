@@ -7,4 +7,5 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public interface ValidateCodeProcess {
     public void create(ServletWebRequest web);
+    public void validate(ServletWebRequest request);
 }

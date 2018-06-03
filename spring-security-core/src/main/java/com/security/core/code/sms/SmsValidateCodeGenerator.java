@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 /**
  * Created by Chris on 2018/4/25.
  */
-public class SmsCodeGenerator implements ValidateCodeGenerator {
+public class SmsValidateCodeGenerator implements ValidateCodeGenerator {
 
     private SecurityProperties securityProperties;
 

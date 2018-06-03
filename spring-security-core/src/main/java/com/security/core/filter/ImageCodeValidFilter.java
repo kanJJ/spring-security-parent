@@ -77,7 +77,7 @@ public class ImageCodeValidFilter extends OncePerRequestFilter implements Initia
     }
 
     private void validate(ServletWebRequest request) {
-        Object sessionCode = sessionStrategy.getAttribute(request, Constants.SESSION_IMAGE_CODE_KEY);
+        Object sessionCode = sessionStrategy.getAttribute(request, Constants.SESSION_CODE_KEY_IMAGE);
         if (sessionCode == null) {
             throw  new ValidateCodeException("qing shua xin ye mian");
         }
@@ -89,7 +89,7 @@ public class ImageCodeValidFilter extends OncePerRequestFilter implements Initia
         if (!StringUtils.equals(code,imagecode )) {
             throw  new ValidateCodeException("yan zheng ma cuo wu");
         }
-        sessionStrategy.removeAttribute(request, Constants.SESSION_IMAGE_CODE_KEY);
+        sessionStrategy.removeAttribute(request, Constants.SESSION_CODE_KEY_IMAGE);
     }
 
     public AuthenticationFailureHandler getAuthenticationFailHandler() {

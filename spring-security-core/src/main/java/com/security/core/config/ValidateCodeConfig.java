@@ -1,7 +1,7 @@
 package com.security.core.config;
 
-import com.security.core.code.image.ImageCodeGenerator;
-import com.security.core.code.sms.SmsCodeGenerator;
+import com.security.core.code.image.ImageValidateCodeGenerator;
+import com.security.core.code.sms.SmsValidateCodeGenerator;
 import com.security.core.code.ValidateCodeGenerator;
 import com.security.core.code.sms.DefaultSmsSender;
 import com.security.core.code.sms.SmsSender;
@@ -22,17 +22,17 @@ public class ValidateCodeConfig {
     private SecurityProperties securityProperties;
 
     @Bean
-    @ConditionalOnMissingBean(name = "imageCodeGenerator")
+    @ConditionalOnMissingBean(name = "ImageValidateCodeGenerator")
     public ValidateCodeGenerator imageCodeGenerator() {
-        ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
-        imageCodeGenerator.setSecurityProperties(securityProperties);
-        return imageCodeGenerator;
+        ImageValidateCodeGenerator imageValidateCodeGenerator = new ImageValidateCodeGenerator();
+        imageValidateCodeGenerator.setSecurityProperties(securityProperties);
+        return imageValidateCodeGenerator;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name="smsCodeGenerator")
+    @ConditionalOnMissingBean(name="smsValidateCodeGenerator")
     public ValidateCodeGenerator smsCodeGenerator() {
-        SmsCodeGenerator sms = new SmsCodeGenerator();
+        SmsValidateCodeGenerator sms = new SmsValidateCodeGenerator();
         sms.setSecurityProperties(securityProperties);
         return sms;
     }

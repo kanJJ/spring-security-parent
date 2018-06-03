@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * Created by Chris on 2018/4/15.
  */
-public class ImageCodeGenerator implements ValidateCodeGenerator {
+public class ImageValidateCodeGenerator implements ValidateCodeGenerator {
 
     /**
      * 系统配置

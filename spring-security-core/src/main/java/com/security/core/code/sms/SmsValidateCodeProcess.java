@@ -10,8 +10,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 /**
  * Created by Chris on 2018/4/26.
  */
-@Component("smsCodeProcess")
-public class SmsCodeProcess extends AbstractValidateCodeProcess<ValidateCode> {
+@Component("smsValidateCodeProcess")
+public class SmsValidateCodeProcess extends AbstractValidateCodeProcess<ValidateCode> {
 
     @Autowired
     private SmsSender smsSender;

@@ -11,8 +11,8 @@ import java.io.IOException;
 /**
  * Created by Chris on 2018/4/26.
  */
-@Component("imageCodeProcess")
-public class ImageCodeProcess extends AbstractValidateCodeProcess<ImageCode> {
+@Component("imageValidateCodeProcess")
+public class ImageValidateCodeProcess extends AbstractValidateCodeProcess<ImageCode> {
     @Override
     public void sender(ServletWebRequest web, ImageCode code) {
         try {

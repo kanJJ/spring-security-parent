@@ -77,7 +77,7 @@ public class SmsCodeValidFilter extends OncePerRequestFilter implements Initiali
     }
 
     private void validate(ServletWebRequest request) {
-        Object sessionCode = sessionStrategy.getAttribute(request, Constants.SESSION_SMS_CODE_KEY);
+        Object sessionCode = sessionStrategy.getAttribute(request, Constants.SESSION_CODE_KEY_SMS);
         if (sessionCode == null) {
             throw  new ValidateCodeException("请获取短信验证码");
         }
@@ -89,7 +89,7 @@ public class SmsCodeValidFilter extends OncePerRequestFilter implements Initiali
         if (!StringUtils.equals(code,smscode )) {
             throw  new ValidateCodeException("验证码错误");
         }
-        sessionStrategy.removeAttribute(request, Constants.SESSION_SMS_CODE_KEY);
+        sessionStrategy.removeAttribute(request, Constants.SESSION_CODE_KEY_SMS);
     }
 
     public AuthenticationFailureHandler getAuthenticationFailHandler() {

@@ -44,21 +44,21 @@ public class ValidateCodeController {
 //    @GetMapping("/image")
 //    public void getimageCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        ImageCode generate = (ImageCode) imageCodeGenerator.generate(new ServletWebRequest(request));
-//        ss.setAttribute(new ServletWebRequest(request), Constants.SESSION_IMAGE_CODE_KEY ,generate.getCode());
+//        ss.setAttribute(new ServletWebRequest(request), Constants.SESSION_CODE_KEY_IMAGE ,generate.getCode());
 //        ImageIO.write(generate.getImage(), "jpeg", response.getOutputStream());
 //    }
 //
 //    @GetMapping("/sms")
 //    public void getsmsCode(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletRequestBindingException {
 //        ValidateCode generate = smsCodeGenerator.generate(new ServletWebRequest(request));
-//        ss.setAttribute(new ServletWebRequest(request), Constants.SESSION_IMAGE_CODE_KEY ,generate.getCode());
+//        ss.setAttribute(new ServletWebRequest(request), Constants.SESSION_CODE_KEY_IMAGE ,generate.getCode());
 //        String mobile = ServletRequestUtils.getRequiredStringParameter(request,"mobile");
 //        smsSender.sender(mobile, generate.getCode());
 //    }
 
     @GetMapping("/{type}")
     public void getCode(HttpServletRequest request, HttpServletResponse response , @PathVariable String type) {
-        stringValidateCodeProcessMap.get(type+"CodeProcess").create(new ServletWebRequest(request,response));
+        stringValidateCodeProcessMap.get(type+"ValidateCodeProcess").create(new ServletWebRequest(request,response));
     }
 
 }
