@@ -16,6 +16,7 @@ import java.io.IOException;
 public class LoginFailedHandle implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(exception.getMessage());
     }
 }

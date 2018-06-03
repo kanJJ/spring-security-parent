@@ -28,7 +28,19 @@ public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implem
     }
 
     public void save(ServletWebRequest web, ValidateCode code) {
-        ss.setAttribute(web, Constants.SESSION_IMAGE_CODE_KEY, code.getCode());
+        String type = getProcessType(web);
+        if (type == null || type == "") {
+            throw new RuntimeException("不能获取url 中 type");
+        }
+
+        if ("image".equals(type)) {
+            ss.setAttribute(web, Constants.SESSION_IMAGE_CODE_KEY, code.getCode());
+        }else if("sms".equals(type)) {
+            ss.setAttribute(web, Constants.SESSION_SMS_CODE_KEY, code.getCode());
+        }else {
+            throw new RuntimeException("url 中 type 不匹配");
+        }
+
     }
 
     public C general(ServletWebRequest requset) {

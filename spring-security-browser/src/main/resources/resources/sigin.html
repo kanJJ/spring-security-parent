@@ -13,8 +13,8 @@
     remember me: <input name="remember-me" type="checkbox" />
     <input type="submit" value="submit"/>
 </form>
-<h1>SMS login</h1>
-<form action="/authenticate/require" method="post">
+<h1>SMS validate</h1>
+<form action="/authenticate/mobile" method="post">
     mobile: <input type="text" name="mobile"  value="13012345678"  /><br />
     smsCode: <input type="text" name="smsCode" /> <a href="/code/sms?mobile=13012345678" >getSmsCode</a>
     <input type="submit" value="submit"/>

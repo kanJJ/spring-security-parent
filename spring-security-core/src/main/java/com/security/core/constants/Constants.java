@@ -5,4 +5,5 @@ package com.security.core.constants;
  */
 public class Constants {
     public static final String SESSION_IMAGE_CODE_KEY = "SESSION_IMAGE_CODE_KEY";
+    public static final String SESSION_SMS_CODE_KEY = "SESSION_SMS_CODE_KEY";
 }

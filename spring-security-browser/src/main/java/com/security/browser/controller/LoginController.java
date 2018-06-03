@@ -41,6 +41,6 @@ public class LoginController {
             }
         }
         res.setContentType("application/json;charset=UTF-8");
-        return new SimpleResponse("ren zheng wei tong guo!");
+        return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
 }
