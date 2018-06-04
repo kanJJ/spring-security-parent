@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.stereotype.Component;
 
 /**
+ * 将拦截器添加到默认拦截器脸上， WebSecurityConfigruationAdaptor 通过 apply 引用
  * Created by chris on 2018/6/4.
  */
 @Component("validateCodeSecurityConfig")

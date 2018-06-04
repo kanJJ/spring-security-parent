@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 验证码拦截器
+ * 拦截所有路径，做判断调用不同逻辑
  * Created by Chris on 2018/6/3.
  */
 @Component("validateCodeFilter")
@@ -51,10 +53,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
-    public  void afterPropertiesSet() {
-        // init and add urls into urls
-        urlMap.put(Constants.DEFAULT_PARAMETER_NAME_CODE_IMAGE,ValidateCodeType.IMAGE );
-        urlMap.put(Constants.DEFAULT_PARAMETER_NAME_CODE_SMS, ValidateCodeType.SMS);
+    public void afterPropertiesSet() {
+        // 多链接进行分类， 调用不同的validate方法进行处理
+        urlMap.put(Constants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
+        urlMap.put(Constants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getImage().getUrls(), ValidateCodeType.IMAGE);
         addUrlToMap(securityProperties.getCode().getSms().getUrls(), ValidateCodeType.SMS);
     }
@@ -62,12 +64,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     protected void addUrlToMap(String urls, ValidateCodeType type) {
         if (StringUtils.isNotBlank(urls)) {
             String[] strings = StringUtils.splitByWholeSeparatorPreserveAllTokens(urls, ";");
-            for (String url: strings) {
+            for (String url : strings) {
                 urlMap.put(url, type);
             }
         }
     }
-
 
 
     @Override
@@ -76,9 +77,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         // get process
         if (validateCodeType != null) {
             try {
-                logger.info("开始类型为 %s 的验证" , validateCodeType.toString());
+                logger.info("开始类型为 %s 的验证", validateCodeType.toString());
                 validateCodeProcessorHolder
+                        // 找不同的ValidateCodeProcess 进行处理，
                         .findProcessByValidateCodeType(validateCodeType)
+                        // 若子类中没有方法，默认调用父类方法, AbstractValidateCodeProcess
                         .validate(new ServletWebRequest(request, response));
                 logger.info("验证成功");
             } catch (ValidateCodeException e) {
@@ -90,14 +93,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     }
 
-     public String getProcessType(ServletWebRequest web) {
-        return StringUtils.substringAfter(web.getRequest().getRequestURI(), "/authenticate/");
-    }
-
     public ValidateCodeType getValidateCodeType(HttpServletRequest request) {
         ValidateCodeType validateCodeType = null;
+        // 不能为get类型
         if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
             String path = request.getRequestURI();
+            // 判断是否匹配拦截路径
             for (String url : urlMap.keySet()) {
                 if (pathMatcher.match(url, path)) {
                     validateCodeType = urlMap.get(url);

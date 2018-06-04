@@ -53,7 +53,7 @@ public class ImageCodeValidFilter extends OncePerRequestFilter implements Initia
         for (String url: configUrls) {
             urls.add(url);
         }
-        urls.add("/authenticate/require");
+        urls.add(Constants.DEFAULT_LOGIN_PROCESSING_URL_FORM);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ImageCodeValidFilter extends OncePerRequestFilter implements Initia
             throw  new ValidateCodeException("qing shua xin ye mian");
         }
         String code = sessionCode.toString();
-        String imagecode = request.getParameter("imagecode");
+        String imagecode = request.getParameter(Constants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
         if (StringUtils.isBlank(imagecode) ) {
             throw  new ValidateCodeException("yanzhengma buneng wei kong");
         }

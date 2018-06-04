@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.Map;
@@ -58,9 +60,16 @@ public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implem
 
     @Override
     public void validate(ServletWebRequest web) {
-        String type = getValidateCodeType(web).toString().toLowerCase();
-        String sessionCode = (String) ss.getAttribute(web, Constants.SESSION_CODE_KEY_PREFIX + type.toUpperCase());
-        String urlCode = (String) web.getRequest().getAttribute(type);
+        ValidateCodeType type = getValidateCodeType(web);
+        String sessionKey = Constants.SESSION_CODE_KEY_PREFIX + type.toString().toUpperCase();
+        String sessionCode = (String) ss.getAttribute(web, sessionKey);
+        String urlCode = null;
+        try {
+            urlCode = ServletRequestUtils.getStringParameter(web.getRequest(),
+                    type.getParamNameOnValidate());
+        } catch (ServletRequestBindingException e) {
+            e.printStackTrace();
+        }
 
         if (sessionCode == null) {
             throw new ValidateCodeException("验证码失效，请重新获取");
@@ -71,15 +80,16 @@ public abstract class AbstractValidateCodeProcess<C extends ValidateCode> implem
         if (!sessionCode.equals(urlCode)) {
             throw new ValidateCodeException("验证码不匹配");
         }
-        ss.removeAttribute(web, Constants.SESSION_CODE_KEY_PREFIX + type.toUpperCase());
+        ss.removeAttribute(web, sessionKey);
         logger.info("验证成功");
     }
 
     public String getProcessType(ServletWebRequest web) {
-        return StringUtils.substringAfter(web.getRequest().getRequestURI(), "/code/");
+        return StringUtils.substringAfter(web.getRequest().getRequestURI(), Constants.DEFAULT_VALIDATE_CODE_URL_PREFIX);
     }
 
     public ValidateCodeType getValidateCodeType(ServletWebRequest web) {
+        // 子类 smsValidateCodeProcess , 获取类似 sms image 字段
         String s = StringUtils.substringBefore(this.getClass().getSimpleName(), "ValidateCodeProcess");
         return ValidateCodeType.valueOf(s.toUpperCase());
     }

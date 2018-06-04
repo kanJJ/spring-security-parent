@@ -20,6 +20,13 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    /**
+     * 通过该方法，可获得数据库链接
+     * spring-social-core
+     * org.springframework.social.connect.jdbc.jdbcUsersConnectionRepository.sql 生成表
+     * @param connectionFactoryLocator
+     * @return
+     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         return new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());

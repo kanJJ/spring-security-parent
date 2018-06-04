@@ -1,6 +1,7 @@
 package com.security.browser.controller;
 
 import com.security.browser.model.SimpleResponse;
+import com.security.core.constants.Constants;
 import com.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class LoginController {
     @Autowired
     private SecurityProperties sp;
 
-    @GetMapping("/index")
+    @GetMapping(Constants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public SimpleResponse authenticateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
         SavedRequest request = rc.getRequest(req, res);

@@ -3,6 +3,7 @@ package com.security.browser;
 import com.security.core.authentication.AbstractChannelSecurityConfig;
 import com.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.security.core.code.ValidateCodeSecurityConfig;
+import com.security.core.constants.Constants;
 import com.security.core.properties.SecurityProperties;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,14 +74,29 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         smsCodeValidFilter.setSecurityProperties(sp);
         smsCodeValidFilter.setAuthenticationFailHandler(loginFailedHandler);
         smsCodeValidFilter.afterPropertiesSet();*/
+
+        //  用户名密码登录通用
         applyPasswordAuthenticationConfig(http);
         http
+                // 手机登录配置
                 .apply(smsCodeAuthenticationSecurityConfig).and()
+                // 手机验证码和图形验证码配置
                 .apply(validateCodeSecurityConfig).and()
+                // qq 第三方登录
+                .apply(mySpringSocialConfigurer)
+                .and()
                 /*.addFilterBefore(smsCodeValidFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(imageCodeValidFilter, UsernamePasswordAuthenticationFilter.class)*/
-                .rememberMe().tokenRepository(persistentTokenRepository()).userDetailsService(myUserDetailService).tokenValiditySeconds(sp.getBrowser().getRememberMeTime())
-                .and().authorizeRequests().antMatchers(sp.getBrowser().getLoginPage(), "/code/*").permitAll().anyRequest().authenticated()
+                .rememberMe().tokenRepository(persistentTokenRepository())
+                .userDetailsService(myUserDetailService)
+                .tokenValiditySeconds(sp.getBrowser().getRememberMeTime())
+                .and().authorizeRequests().
+                antMatchers(
+                        sp.getBrowser().getLoginPage(),
+                        Constants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "*",
+                        Constants.DEFAULT_UNAUTHENTICATION_URL
+                ).permitAll().
+                anyRequest().authenticated()
         .and().csrf().disable();
     }
 }

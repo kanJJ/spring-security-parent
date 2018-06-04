@@ -53,7 +53,7 @@ public class SmsCodeValidFilter extends OncePerRequestFilter implements Initiali
         for (String url: configUrls) {
             urls.add(url);
         }
-        urls.add("/authenticate/mobile");
+        urls.add(Constants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SmsCodeValidFilter extends OncePerRequestFilter implements Initiali
             throw  new ValidateCodeException("请获取短信验证码");
         }
         String code = sessionCode.toString();
-        String smscode = request.getParameter("smsCode");
+        String smscode = request.getParameter(Constants.DEFAULT_PARAMETER_NAME_CODE_SMS);
         if (StringUtils.isBlank(smscode) ) {
             throw  new ValidateCodeException("验证码不能为空");
         }

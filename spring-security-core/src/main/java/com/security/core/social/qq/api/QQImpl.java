@@ -20,19 +20,30 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
     private String oauth_consumer_key;
     private ObjectMapper mapper = new ObjectMapper();
 
-
+    /**
+     * 初始化openId 和  oauth_consumer_key
+     * @param accessToken
+     * @param oauth_consumer_key
+     */
     public QQImpl(String accessToken, String oauth_consumer_key) {
         super(accessToken, TokenStrategy.ACCESS_TOKEN_PARAMETER);
         String url = String.format(OPEN_ID_URL, accessToken);
+        // 获取 openId
         String result = getRestTemplate().getForObject(url, String.class);
         String id = StringUtils.substringBetween(result, "\"openid\":\"", "\"}");
         this.openId = id;
         this.oauth_consumer_key = oauth_consumer_key;
     }
 
+    /**
+     * 获取 QQ 信息封装类
+     * @return
+     */
     @Override
     public QQUserInfo getQQUserInfo() {
+        //创建路径
         String url = String.format(USER_INFO_URL, this.oauth_consumer_key, this.openId);
+        //通过url 获取userinfo
         String info = getRestTemplate().getForObject(url, String.class);
         System.out.println(info);
         try {

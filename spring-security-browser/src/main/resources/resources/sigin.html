@@ -2,23 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>biao zhun deng lu</title>
+    <title>登录</title>
 </head>
 <body>
-<h1>biao zhun deng lu</h1>
+<h2>标准登录页面</h2>
+<h3>表单登录</h3>
 <form action="/authenticate/form" method="post">
-    username: <input type="text" name="username"/><br />
-    password: <input type="password" name="password"/><br />
-    yanzhengma: <img src="/code/image" ><input type="text" name="imagecode"/> <br/>
-    remember me: <input name="remember-me" type="checkbox" />
-    <input type="submit" value="submit"/>
-</form>
-<h1>SMS validate</h1>
-<form action="/authenticate/mobile" method="post">
-    mobile: <input type="text" name="mobile"  value="13012345678"  /><br />
-    smsCode: <input type="text" name="smsCode" /> <a href="/code/sms?mobile=13012345678" >getSmsCode</a>
-    <input type="submit" value="submit"/>
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>图形验证码:</td>
+            <td>
+                <input type="text" name="imageCode">
+                <img src="/code/image?width=200">
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2'><input name="remember-me" type="checkbox" value="true" />记住我</td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">登录</button></td>
+        </tr>
+    </table>
 </form>
 
+<h3>短信登录</h3>
+<form action="/authenticate/mobile" method="post">
+    <table>
+        <tr>
+            <td>手机号:</td>
+            <td><input type="text" name="mobile" value="13012345678"></td>
+        </tr>
+        <tr>
+            <td>短信验证码:</td>
+            <td>
+                <input type="text" name="smsCode">
+                <a href="/code/sms?mobile=13012345678">发送验证码</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">登录</button></td>
+        </tr>
+    </table>
+</form>
+<br>
+<h3>社交登录</h3>
+<a href="/auth/qq">QQ登录</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/qqLogin/weixin">微信登录</a>
 </body>
 </html>

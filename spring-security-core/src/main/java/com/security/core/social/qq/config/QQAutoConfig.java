@@ -27,6 +27,10 @@ public class QQAutoConfig extends SocialAutoConfigurerAdapter {
         return new QQConnectFactory(qq.getProvideId(),qq.getAppId(), qq.getAppSecret() );
     }
 
+    /**
+     * 用于添加到 spring security 过滤器链上
+     * @return
+     */
     @Bean
     public SpringSocialConfigurer mySpringSocialConfigurer() {
         return new SpringSocialConfigurer();

@@ -9,6 +9,7 @@ import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 
 /**
+ * 用于封装数据到spring social 管理的容器内
  * Created by Chris on 2018/5/27.
  */
 public class QQAdapter implements ApiAdapter<QQ> {

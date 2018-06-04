@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
+ * 用于适配不同的code process，
  * Created by chris on 2018/6/3.
  */
 @Component
@@ -24,7 +25,7 @@ public class ValidateCodeProcessorHolder {
     }
 
     /**
-     * find process by typp
+     * 通过type 类型 ，匹配不同的process
      * @param type
      * @return
      */

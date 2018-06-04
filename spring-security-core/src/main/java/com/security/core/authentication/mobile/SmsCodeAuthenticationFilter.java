@@ -1,5 +1,6 @@
 package com.security.core.authentication.mobile;
 
+import com.security.core.constants.Constants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -15,18 +16,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     // ~ Static fields/initializers
-    // =====================================================================================
+    // ====================================================================================
 
-    public static final String MOBILE_NULMER = "mobile";
-
-    private String mobileParameter = MOBILE_NULMER;
+    private String mobileParameter = Constants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
 
     // ~ Constructors
     // ===================================================================================================
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authenticate/mobile", "POST"));
+        super(new AntPathRequestMatcher(Constants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods

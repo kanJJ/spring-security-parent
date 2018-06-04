@@ -1,6 +1,7 @@
 package com.security.core.code.sms;
 
 import com.security.core.code.AbstractValidateCodeProcess;
+import com.security.core.constants.Constants;
 import com.security.core.model.ValidateCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class SmsValidateCodeProcess extends AbstractValidateCodeProcess<Validate
     @Override
     public void sender(ServletWebRequest web, ValidateCode code) {
         try {
-            String mobile = ServletRequestUtils.getRequiredStringParameter(web.getRequest(), "mobile");
+            String mobile = ServletRequestUtils.getRequiredStringParameter(web.getRequest(), Constants.DEFAULT_PARAMETER_NAME_MOBILE);
             smsSender.sender(mobile, code.getCode());
         }catch (Exception e) {
 
