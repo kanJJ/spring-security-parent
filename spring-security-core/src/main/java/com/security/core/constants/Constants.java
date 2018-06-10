@@ -24,5 +24,9 @@ public class Constants {
     public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE=  "/authenticate/mobile";
     // 获取图形验证码及短信验证码前缀
     public static final String  DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code/";
+    // session 过期默认跳转路径
+    public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+    // 默认登录页面
+    public static final String DEFAULT_SINGIN_PAGE = "/singin.html";
 
 }

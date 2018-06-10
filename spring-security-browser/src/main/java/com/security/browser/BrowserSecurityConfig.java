@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
@@ -55,6 +57,12 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
+    private SessionInformationExpiredStrategy defaultSessionInformationExpiredStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy defaultInvalidSessionStrategy;
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -95,11 +103,20 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .rememberMe().tokenRepository(persistentTokenRepository())
                 .userDetailsService(myUserDetailService)
                 .tokenValiditySeconds(sp.getBrowser().getRememberMeTime())
-                .and().authorizeRequests().
+                .and()
+                .sessionManagement()
+                .invalidSessionStrategy(defaultInvalidSessionStrategy)
+                .maximumSessions(sp.getSession().getMaximumSessions())
+                .expiredSessionStrategy(defaultSessionInformationExpiredStrategy)
+                .maxSessionsPreventsLogin(sp.getSession().getMaxSessionsPreventsLogin())
+                .and()
+                .and()
+                .authorizeRequests().
                 antMatchers(
-                        sp.getBrowser().getLoginPage(),
+                        sp.getBrowser().getLoginPageUrl(),
                         Constants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "*",
-                        Constants.DEFAULT_UNAUTHENTICATION_URL
+                        Constants.DEFAULT_UNAUTHENTICATION_URL,
+                        Constants.DEFAULT_SESSION_INVALID_URL+".html"
                 ).permitAll().
                 anyRequest().authenticated()
         .and().csrf().disable();

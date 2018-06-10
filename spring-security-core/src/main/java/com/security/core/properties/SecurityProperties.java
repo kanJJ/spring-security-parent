@@ -9,7 +9,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "security")
 public class SecurityProperties {
     private BrowserProperties browser = new BrowserProperties();
-    private SocialProperties social;
+    private SocialProperties social = new SocialProperties();
+    private SessionProperties session = new SessionProperties();
+
+    public SessionProperties getSession() {
+        return session;
+    }
+
+    public void setSession(SessionProperties session) {
+        this.session = session;
+    }
 
     public SocialProperties getSocial() {
         return social;

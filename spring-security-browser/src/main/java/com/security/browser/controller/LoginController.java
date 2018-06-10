@@ -10,7 +10,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,17 +31,18 @@ public class LoginController {
     @Autowired
     private SecurityProperties sp;
 
-    @GetMapping(Constants.DEFAULT_UNAUTHENTICATION_URL)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @RequestMapping(Constants.DEFAULT_UNAUTHENTICATION_URL)
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse authenticateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
         SavedRequest request = rc.getRequest(req, res);
         if (request != null) {
             String redirectUrl = request.getRedirectUrl();
             if (redirectUrl != null && redirectUrl.endsWith(".html")) {
-                rs.sendRedirect(req, res, sp.getBrowser().getLoginPage());
+                rs.sendRedirect(req, res, sp.getBrowser().getLoginPageUrl());
             }
         }
         res.setContentType("application/json;charset=UTF-8");
         return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
+
 }
