@@ -5,6 +5,15 @@ package com.security.core.properties.social;
  */
 public class SocialProperties {
     private QQProperties qq;
+    private WeiXinProperties weixin;
+
+    public WeiXinProperties getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(WeiXinProperties weixin) {
+        this.weixin = weixin;
+    }
 
     public QQProperties getQq() {
         return qq;

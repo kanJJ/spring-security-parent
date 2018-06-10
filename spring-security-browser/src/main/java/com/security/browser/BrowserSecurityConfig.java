@@ -45,7 +45,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     private UserDetailsService myUserDetailService;
 
     @Autowired
-    private SpringSocialConfigurer mySpringSocialConfigurer;
+    private SpringSocialConfigurer qqSpringSocialConfigurer;
+
+    @Autowired
+    private SpringSocialConfigurer weixinSpringSocialConfigurer;
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -83,7 +86,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 // 手机验证码和图形验证码配置
                 .apply(validateCodeSecurityConfig).and()
                 // qq 第三方登录
-                .apply(mySpringSocialConfigurer)
+                .apply(qqSpringSocialConfigurer)
+                .and()
+                .apply(weixinSpringSocialConfigurer)
                 .and()
                 /*.addFilterBefore(smsCodeValidFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(imageCodeValidFilter, UsernamePasswordAuthenticationFilter.class)*/
