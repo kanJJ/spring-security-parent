@@ -28,5 +28,7 @@ public class Constants {
     public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
     // 默认登录页面
     public static final String DEFAULT_SINGIN_PAGE = "/singin.html";
+    // deng chu
+    public static final String DEFAULT_LOGINOUT_URL = "/logout";
 
 }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -64,6 +65,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private InvalidSessionStrategy defaultInvalidSessionStrategy;
 
+    @Autowired
+    private LogoutSuccessHandler defaultLogoutSuccessHandler;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
@@ -111,12 +115,18 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .maxSessionsPreventsLogin(sp.getSession().getMaxSessionsPreventsLogin())
                 .and()
                 .and()
+                .logout()
+                .logoutUrl(Constants.DEFAULT_LOGINOUT_URL)
+                .logoutSuccessHandler(defaultLogoutSuccessHandler)
+                .and()
                 .authorizeRequests().
                 antMatchers(
                         sp.getBrowser().getLoginPageUrl(),
+                        sp.getBrowser().getLogoutPageUrl(),
                         Constants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "*",
                         Constants.DEFAULT_UNAUTHENTICATION_URL,
-                        Constants.DEFAULT_SESSION_INVALID_URL+".html"
+                        Constants.DEFAULT_SESSION_INVALID_URL+".html",
+                        Constants.DEFAULT_LOGINOUT_URL
                 ).permitAll().
                 anyRequest().authenticated()
         .and().csrf().disable();
