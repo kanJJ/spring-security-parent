@@ -17,9 +17,14 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>com.security</groupId>
             <artifactId>spring-security-browser</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.security</groupId>
+            <artifactId>spring-security-app</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
         <dependency>

@@ -8,7 +8,7 @@ import com.security.core.constants.Constants;
 
 public class BrowserProperties {
     private String loginPageUrl = Constants.DEFAULT_SINGIN_PAGE;
-    private String logoutPageUrl;
+    private String logoutPageUrl = Constants.DEFAULT_LOGINOUT_URL;
 
     private int rememberMeTime = 600;
 
